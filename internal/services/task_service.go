@@ -117,6 +117,6 @@ func (t *taskService) UpdateTask(userID uint, taskID uint, title *string, descri
 }
 
 
-func NewTaskRepository(taskRepo repositories.TaskRepository) TaskService {
+func NewTaskService(taskRepo repositories.TaskRepository) TaskService {
 	return &taskService{taskRepo: taskRepo}
 }

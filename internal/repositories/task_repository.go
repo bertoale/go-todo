@@ -20,8 +20,18 @@ type taskRepository struct {
 
 // Create implements TaskRepository.
 func (t *taskRepository) Create(task *models.Task) error {
-	return t.db.Create(task).Error
+	if err := t.db.Create(task).Error; err != nil {
+		return err
+	}
+
+	// Setelah berhasil insert, ambil ulang data lengkap dengan relasi User
+	if err := t.db.Preload("User").First(task, task.ID).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
+
 
 // Delete implements TaskRepository.
 func (t *taskRepository) Delete(task *models.Task) error {

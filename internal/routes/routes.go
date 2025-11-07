@@ -28,4 +28,9 @@ func SetupRoutes(app *fiber.App, cfg *config.Config) {
 	authService := services.NewAuthService(authRepo, cfg)
 	authController := controllers.NewAuthController(authService, cfg)
 	SetupAuthRoutes(app, cfg, authController)
+	// Initialize Task Repository, Service, dan Controller dengan dependency injection
+	taskRepo := repositories.NewTaskRepository(database.GetDB())
+	taskService := services.NewTaskService(taskRepo)
+	taskController := controllers.NewTaskController(taskService)
+	SetupTaskRoutes(app, cfg, taskController)
 }
